@@ -55,4 +55,30 @@ def euclid_cluster(cloud, cl_t, min_cl, max_cl):
 
     return cluster_indices, white_cloud
 
+
+def cluster_mask(cluster_indices, white_cloud):
     
+    cluster_color = get_color_list(len(cluster_indices))
+
+    color_cluster_point_list = []
+
+    for j, indices in enumerate(cluster_indices):
+        for i, indice in enumerate(indices):
+            color_cluster_point_list.append([
+                                            white_cloud[indice][0],
+                                            white_cloud[indice][1],
+                                            white_cloud[indice][2],
+                                            rgb_to_float( cluster_color[j] )
+                                           ])
+
+    cluster_cloud = pcl.PointCloud_PointXYZRGB()
+    cluster_cloud.from_list(color_cluster_point_list)
+
+    return cluster_cloud
+
+
+def get_clusters_cloud(pcd_file_path, t_cl, min_cl, max_cl):
+    cloud = pcl.load(pcd_file_path)
+    indices, white_cloud = euclid_cluster(cloud, t_cl, min_cl, max_cl)
+    cluster_cloud = cluster_mask(indices, white_cloud)
+    return cluster_cloud
