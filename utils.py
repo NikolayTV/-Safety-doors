@@ -1,4 +1,5 @@
 import struct
+import json
 from random import randint
 
 import pcl
@@ -163,3 +164,37 @@ def VFH(pcd):
     com_his=process_feat(com_his)
     return com_his
     
+
+def get_gt_clusters(pcd_data_path):
+    cloud = pcl.load(pcd_data_path)
+    clipper = cloud.make_cropbox()
+    tx, ty, tz = 0, 0, 0
+    clipper.set_Translation(tx, ty, tz)
+    rx, ry, rz = 0, 0, 0
+    clipper.set_Rotation(rx, ry, rz)
+
+    json_ann_file = pcd_data_path.replace('clouds_tof', 'clouds_tof_ann').replace('pcd', 'pcd.json')
+    with open(json_ann_file) as f:
+        json_data = json.load(f)
+
+    gt_clusters = []
+    for obj, fig in zip(json_data['objects'], json_data['figures']):
+        geom = fig['geometry']
+        pos_x = float(geom['position']['x'])
+        pos_y = float(geom['position']['y'])
+        pos_z = float(geom['position']['z'])
+
+        dim_x = float(geom['dimensions']['x'])
+        dim_y = float(geom['dimensions']['y'])
+        dim_z = float(geom['dimensions']['z'])
+        
+        min_x, max_x = pos_x - dim_x, pos_x + dim_x
+        min_y, max_y = pos_y - dim_y, pos_y + dim_y
+        min_z, max_z = pos_z - dim_z, pos_z + dim_z
+
+        clipper.set_MinMax(min_x, min_y, min_z, 0, max_x, max_y, max_z, 0)
+        outcloud = clipper.filter()
+
+        gt_clusters.append([obj['classTitle'], outcloud])
+        
+    return gt_clusters
