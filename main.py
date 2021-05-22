@@ -2,15 +2,14 @@ import os
 import sys
 import argparse
 
-
 import pcl 
 import numpy as np
 
 from utils import get_clusters_cloud
 
 
-DATA_PATH = ''
-RESULT_PATH = ''
+DATA_PATH = 'data/point_cloud_gt/clouds_tof'
+RESULT_PATH = 'data/point_cloud_gt/clouds_tof_result'
 SAVE = True 
 CLUSTER_TOLERANCE = 0.025
 CLUSTER_MIN_SIZE = 5000

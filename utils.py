@@ -82,3 +82,4 @@ def get_clusters_cloud(pcd_file_path, t_cl, min_cl, max_cl):
     indices, white_cloud = euclid_cluster(cloud, t_cl, min_cl, max_cl)
     cluster_cloud = cluster_mask(indices, white_cloud)
     return cluster_cloud
+
