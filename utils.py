@@ -7,6 +7,11 @@ import numpy as np
 import open3d as o3d
 
 
+CLUSTER_TOLERANCE = 0.015
+CLUSTER_MIN_SIZE = 5000
+CLUSTER_MAX_SIZE = 150000
+
+
 def random_color_gen():
     r = randint(0, 255)
     g = randint(0, 255)
