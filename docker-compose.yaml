@@ -1,0 +1,11 @@
+version: "3.7"
+
+services:
+  ubuntu:
+    container_name: ${APP_NAME}-ubuntu-pcl
+    restart: always
+    build:
+      context: .
+      dockerfile: docker/Dockerfile
+    ports:
+      [8082:80]
