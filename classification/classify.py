@@ -24,8 +24,8 @@ def predict_class(pcd):
     df.at[0, [320, 321, 322]] = size
     df.at[0, [323, 324, 325]] = center
 
-    svm = joblib.load('svm.pkl')
-    proba = svm.predict_proba([dfgit .loc[0].values])
+    svm = joblib.load('classification/svm.pkl')
+    proba = svm.predict_proba([df.loc[0].values])
 
     return dict(zip(['human', 'other', 'wear'], proba[0]))
 
