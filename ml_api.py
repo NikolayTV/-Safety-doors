@@ -1,6 +1,5 @@
 from fastapi import FastAPI
 import io
-# from core.v1_parser import *
 
 app = FastAPI()
 
