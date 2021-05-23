@@ -1,9 +1,7 @@
-# -Safety-doors
-Web-morda - https://github.com/opmoje/003-frontend
+# Solaris Safety-doors
+Web morda - https://github.com/opmoje/003-frontend
 
-IN PROGRESS
-
-We try to prepare Docker, for you - code reviewers
+Демо - http://94.41.16.201:8081/i
 
 ##Описание подхода
 
@@ -12,10 +10,17 @@ We try to prepare Docker, for you - code reviewers
 - PythonPCL (https://github.com/strawlab/python-pcl)
 - Open3d (https://github.com/intel-isl/Open3D)
 
-### Этапы работы системы
+### Проделанная работа по CV
+
 - Загрузка `.pcd` данных и понижение размерности облака точек
 - Первичная кластеризация облака точек при помощи `kd_tree`(https://github.com/strawlab/python-pcl/blob/master/examples/kdtree.py) и `EuclideanClusterExtraction`(https://github.com/strawlab/python-pcl/blob/master/examples/official/Segmentation/cluster_extraction.py)
-- Извлечение дескрипторов из полученных кластеров при помощи VFH (Viewpoint Features Histogram) - https://pcl.readthedocs.io/projects/tutorials/en/latest/vfh_estimation.html#estimating-vfh-features * Так как поддержка Python-pcl была прекращена, в библиотеке не был реализован метод для получения VFH, нами была создана кастомная реализация метода VFH на основании описания и `C++` реализации для оригинальной версии PCL
-- Классификация извлеченных дескрипторов линейной моделью
+- Извлечение дескрипторов из полученных кластеров при помощи VFH (Viewpoint Features Histogram) - https://pcl.readthedocs.io/projects/tutorials/en/latest/vfh_estimation.html#estimating-vfh-features * Так как поддержка Python-pcl была прекращена, в библиотеке не был реализован метод для получения VFH, что было замечено очень поздно. 
+  Нами была создана кастомная реализация метода VFH на основании описания и `C++` реализации для оригинальной версии PCL
+- Помимо дескриптора VFH мы используем и другие статистики - средние значения кластера по осям, матрицы ковариации, размер кластера.
+- Классификация извлеченных дескрипторов на выборке из 26 объектов из обучающей выборки. SVC с линейным ядром показал наиболее высокий и робастный результат на Stratified KFold.
 - Запись результата в `JSON`
-- По запросу из фронтенда в MLCore результат обработки отправляется для отображения в веб морду 
+  
+### Web morda демонстрации решения и бэк
+- Бэк делает запрос в MLCore, для которого написан REST API
+- На выход получает json с откластиризованными и классифицированными предсказаниями
+  
