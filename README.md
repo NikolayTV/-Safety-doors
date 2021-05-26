@@ -1,3 +1,4 @@
+Решение команды Солярис для хакатона Siberian-IT-HUB
 # Solaris Safety-doors
 Web morda - https://github.com/opmoje/003-frontend
 
